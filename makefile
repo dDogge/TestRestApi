@@ -1,3 +1,5 @@
+#DO NOT use startdb and stopdb if you use mariadb outside this shit project
+
 
 DB_NAME := temp_db
 DB_USER := root
