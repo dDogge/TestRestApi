@@ -5,15 +5,17 @@ import (
 	"log"
 
 	"github.com/dDogge/TestRestApi/database"
-	_ "github.com/go-sql-driver/mysql"
+	_ "modernc.org/sqlite"
 )
 
 func main() {
-	db, err := sql.Open("mysql", "root:@tcp(127.0.01:3306)/temp_db")
+	db, err := sql.Open("sqlite", "./temp_db.db")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer db.Close()
+
+	database.CreateTable(db)
 
 	database.AddPerson(db, "Mister", "Anderson")
 	database.AddPerson(db, "Neo", "Fetch")
