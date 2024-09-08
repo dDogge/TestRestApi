@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"log"
+	"net/http"
 
 	"github.com/dDogge/TestRestApi/database"
 	_ "modernc.org/sqlite"
@@ -22,4 +23,13 @@ func main() {
 	database.AddPerson(db, "Cave", "Goblin")
 
 	database.GetPersons(db)
+
+	fs := http.FileServer(http.Dir("./frontend/build"))
+	http.Handle("/", fs)
+
+	log.Println("Server started on :3000")
+	err = http.ListenAndServe(":3000", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
