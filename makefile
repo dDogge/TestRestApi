@@ -2,6 +2,7 @@
 .PHONY: run
 run:
 	@echo "Running..."
+	cd frontend && npm run build
 	go run main.go
 
 .PHONY: result
