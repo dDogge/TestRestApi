@@ -33,5 +33,6 @@ func addPerson(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 
 func getPersons(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	persons := database.GetPersons(db)
+	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(persons)
 }
