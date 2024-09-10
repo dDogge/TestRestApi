@@ -40,7 +40,7 @@ func AddPerson(db *sql.DB, firstname, lastname string) {
 	fmt.Println("Person added!")
 }
 
-func GetPersons(db *sql.DB) {
+func GetPersons(db *sql.DB) []Person {
 	rows, err := db.Query("SELECT firstName, lastName FROM persons")
 	if err != nil {
 		log.Fatal(err)
@@ -57,8 +57,5 @@ func GetPersons(db *sql.DB) {
 		}
 		persons = append(persons, p)
 	}
-
-	for _, p := range persons {
-		fmt.Printf("Firstname: %s, Lastname: %s\n", p.Firstname, p.Lastname)
-	}
+	return persons
 }

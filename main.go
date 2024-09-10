@@ -5,11 +5,14 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/dDogge/TestRestApi/api"
 	"github.com/dDogge/TestRestApi/database"
+	"github.com/gorilla/mux"
 	_ "modernc.org/sqlite"
 )
 
 func main() {
+	var err error
 	db, err := sql.Open("sqlite", "./temp_db.db")
 	if err != nil {
 		log.Fatal(err)
@@ -17,18 +20,14 @@ func main() {
 	defer db.Close()
 
 	database.CreateTable(db)
-
-	database.AddPerson(db, "Mister", "Anderson")
-	database.AddPerson(db, "Neo", "Fetch")
-	database.AddPerson(db, "Cave", "Goblin")
-
-	database.GetPersons(db)
+	router := mux.NewRouter()
+	api.SetupRoutes(router, db)
 
 	fs := http.FileServer(http.Dir("./frontend/build"))
-	http.Handle("/", fs)
+	router.PathPrefix("/").Handler(fs)
 
 	log.Println("Server started on :3000")
-	err = http.ListenAndServe(":3000", nil)
+	err = http.ListenAndServe(":3000", router)
 	if err != nil {
 		log.Fatal(err)
 	}
