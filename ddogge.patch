@@ -1,0 +1,34 @@
+diff --git a/.gitignore b/.gitignore
+new file mode 100644
+index 0000000..47657ad
+--- /dev/null
++++ b/.gitignore
+@@ -0,0 +1,2 @@
++*.class
++*.db
+diff --git a/makefile b/makefile
+index ac0e822..5f23522 100644
+--- a/makefile
++++ b/makefile
+@@ -1,16 +1,14 @@
+-
+-.PHONY: run
+ run:
+ 	@echo "Running..."
+ 	cd frontend && npm run build
+ 	go run main.go
+ 
+-.PHONY: result
+ result:
+ 	@echo "Getting results from db..."
+ 	sqlite3 temp_db.db "SELECT * FROM persons;"
+ 
+-.PHONY: drop
+-drop: 
++drop:
+ 	@echo "Dropping table..."
+-	sqlite3 temp_db.db "DROP TABLE IF EXISTS persons"
+\ No newline at end of file
++	sqlite3 temp_db.db "DROP TABLE IF EXISTS persons"
++
++.PHONY: run result drop
